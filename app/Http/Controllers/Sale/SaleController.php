@@ -13,9 +13,7 @@ use Illuminate\Support\Facades\DB;
 
 class SaleController extends Controller
 {
-    /**
-     * Store a newly created resource in storage.
-     */
+
     public function store(StoreSaleRequest $request)
     {
         $validateData = $request->validated();
@@ -26,6 +24,7 @@ class SaleController extends Controller
 
             $usuario = User::create(['name' => $validateData['name']]);
 
+            //Crear array de ventas
             $ventas = [];
             foreach ($validateData['products'] as $data) {
                 
@@ -38,6 +37,7 @@ class SaleController extends Controller
                 ];
             }
 
+            //Calcular total de las ventas
             $productos = Product::get()->toArray();
             foreach ($ventas as $key => $dataVenta) {
 
