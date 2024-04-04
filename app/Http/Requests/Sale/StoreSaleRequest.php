@@ -2,12 +2,17 @@
 
 namespace App\Http\Requests\Sale;
 
+use App\DTO\StoreSaleData;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Response;
+use Illuminate\Support\Arr;
 use Illuminate\Validation\ValidationException;
 
 class StoreSaleRequest extends FormRequest
 {
+
+    public array $ventas;
+
     /**
      * Determine if the user is authorized to make this request.
      */
@@ -34,11 +39,23 @@ class StoreSaleRequest extends FormRequest
     public function messages(): array
     {
         return [
-            'name.required' => 'El nombre es obligatorio.',
-            'name.unique' => 'El nombre ya está en uso.',
-            'products.*.id.required' => 'producto ID es obligatorio',
-            'products.*.quantity.required' => 'Cantidad del producto es obligatorio',
-            'products.*.quantity.integer' => 'Cantidad del producto es numerico'
+            'name.required' => 'Nombre es obligatorio.',
+            'name.unique' => 'Nombre ya está en uso.',
+            'products.*.id.required' => 'Producto ID es obligatorio',
+            'products.*.quantity.required' => 'Cantidad es obligatorio',
+            'products.*.quantity.integer' => 'Cantidad es numerico'
         ];
+    }
+
+    public function passedValidation ()
+    {
+        foreach ($this->products as $dataProducto) {
+
+            $this->ventas[] = new StoreSaleData(
+                $this->name,
+                $dataProducto['id'],
+                $dataProducto['quantity']
+            );
+        }
     }
 }

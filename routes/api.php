@@ -20,3 +20,4 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 Route::resource('sales' , SaleController::class);
+Route::get('get_sales/{nameClient}', [SaleController::class, 'getSales']);
