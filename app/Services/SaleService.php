@@ -63,12 +63,13 @@ class SaleService
 
     public function getSale(String $nameClient)
     {
-
         try {
+
             $idUser = User::where('name', $nameClient)->select('id')->first();
     
             $userSales = Sale::where('users_id', $idUser['id'])-> get();
             
+            //Calcular total y crear variables
             $totalPrice = 0;
             $createdAt = '';
             $products = [];
@@ -93,7 +94,6 @@ class SaleService
 
             return false;
         }
-
     }
 
 }
